@@ -10,6 +10,13 @@ requires-python = ">=3.13"
 dependencies = [
 ]
 
+[tool.flake8]
+max-line-length = 79
+exclude = [
+    ".venv",
+    "__pycache__",
+    ".git",
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
