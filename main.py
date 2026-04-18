@@ -2,44 +2,60 @@ from src.category import Category
 from src.product import Product
 
 
-def main() -> None:
-    """Создает тестовые объекты и выводит информацию для проверки."""
-    product_1 = Product("iPhone 15", "256GB, Gray color", 210000.0, 8)
-    product_2 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
-    product_3 = Product("Samsung TV", "55 inches, 4K", 50000.0, 7)
-    product_4 = Product("LG TV", "65 inches, OLED", 120000.0, 3)
+if __name__ == "__main__":
+    product1 = Product(
+        "Samsung Galaxy S23 Ultra",
+        "256GB, Серый цвет, 200MP камера",
+        180000.0,
+        5,
+    )
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    category_1 = Category(
+    print(product1.name)
+    print(product1.description)
+    print(product1.price)
+    print(product1.quantity)
+
+    print(product2.name)
+    print(product2.description)
+    print(product2.price)
+    print(product2.quantity)
+
+    print(product3.name)
+    print(product3.description)
+    print(product3.price)
+    print(product3.quantity)
+
+    category1 = Category(
         "Смартфоны",
         (
             "Смартфоны, как средство не только коммуникации, "
-            "но и получения дополнительных функций"
+            "но и получения дополнительных функций для удобства жизни"
         ),
-        [product_1, product_2],
+        [product1, product2, product3],
     )
 
-    category_2 = Category(
-        "Телевизоры",
-        "Современные телевизоры для дома",
-        [product_3, product_4],
-    )
-
-    print(product_1.name)
-    print(product_1.description)
-    print(product_1.price)
-    print(product_1.quantity)
-
-    print(category_1.name)
-    print(category_1.description)
-    print(len(category_1.products))
-
-    print(category_2.name)
-    print(category_2.description)
-    print(len(category_2.products))
-
+    print(category1.name == "Смартфоны")
+    print(category1.description)
+    print(len(category1.products))
     print(Category.category_count)
     print(Category.product_count)
 
+    product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
+    category2 = Category(
+        "Телевизоры",
+        (
+            "Современный телевизор, который позволяет "
+            "наслаждаться просмотром, станет вашим другом и помощником"
+        ),
+        [product4],
+    )
 
-if __name__ == "__main__":
-    main()
+    print(category2.name)
+    print(category2.description)
+    print(len(category2.products))
+    print(category2.products)
+
+    print(Category.category_count)
+    print(Category.product_count)
