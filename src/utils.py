@@ -13,12 +13,7 @@ def load_data_from_json(filename: str) -> list[Category]:
 
     for category_data in data:
         products = [
-            Product(
-                product["name"],
-                product["description"],
-                product["price"],
-                product["quantity"],
-            )
+            Product.new_product(product)
             for product in category_data["products"]
         ]
 

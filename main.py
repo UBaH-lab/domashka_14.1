@@ -1,7 +1,6 @@
 from src.category import Category
 from src.product import Product
 
-
 if __name__ == "__main__":
     product1 = Product(
         "Samsung Galaxy S23 Ultra",
@@ -38,7 +37,7 @@ if __name__ == "__main__":
 
     print(category1.name == "Смартфоны")
     print(category1.description)
-    print(len(category1.products))
+    print(category1.products)  # теперь выводит отформатированную строку
     print(Category.category_count)
     print(Category.product_count)
 
@@ -54,8 +53,45 @@ if __name__ == "__main__":
 
     print(category2.name)
     print(category2.description)
-    print(len(category2.products))
     print(category2.products)
 
     print(Category.category_count)
     print(Category.product_count)
+
+    # Демонстрация новой функциональности
+    print("\n--- Новая функциональность ---\n")
+
+    # 1. Добавление товара через add_product()
+    new_product = Product("Samsung Galaxy A54", "256GB, Черный", 45000.0, 20)
+    category1.add_product(new_product)
+    print("Добавлен новый товар в категорию Смартфоны:")
+    print(category1.products)
+    print(f"Общее количество товаров: {Category.product_count}")
+
+    # 2. Создание товара через класс-метод new_product()
+    product_data = {
+        "name": "Google Pixel 8",
+        "description": "128GB, Черный",
+        "price": 85000.0,
+        "quantity": 12,
+    }
+    product5 = Product.new_product(product_data)
+    print(f"Создан товар через new_product: {product5.name}, {product5.price} руб.")
+
+    # 3. Работа с сеттером цены
+    print("\nИзменение цены товара:")
+    print(f"Текущая цена: {product1.price} руб.")
+
+    # Пытаемся установить корректную цену
+    product1.price = 170000.0
+    print(f"Новая цена после изменения: {product1.price} руб.")
+
+    # Пытаемся установить некорректную цену
+    print("\nПопытка установить нулевую цену:")
+    product1.price = 0
+    print(f"Цена осталась прежней: {product1.price} руб.")
+
+    # Пытаемся установить отрицательную цену
+    print("\nПопытка установить отрицательную цену:")
+    product1.price = -5000
+    print(f"Цена осталась прежней: {product1.price} руб.")
