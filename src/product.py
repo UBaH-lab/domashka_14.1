@@ -11,7 +11,7 @@ class Product:
         """Инициализирует объект продукта."""
         self.name = name
         self.description = description
-        self.__price = price  # приватный атрибут
+        self.__price = price
         self.quantity = quantity
 
     @classmethod
@@ -36,3 +36,11 @@ class Product:
             print("Цена не должна быть нулевая или отрицательная")
         else:
             self.__price = new_price
+
+    def __str__(self) -> str:
+        """Возвращает строковое представление продукта."""
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other: "Product") -> float:
+        """Возвращает сумму произведений цены на количество двух продуктов."""
+        return self.__price * self.quantity + other.price * other.quantity
