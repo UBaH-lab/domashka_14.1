@@ -43,4 +43,48 @@ class Product:
 
     def __add__(self, other: "Product") -> float:
         """Возвращает сумму произведений цены на количество двух продуктов."""
+        if type(self) is not type(other):
+            raise TypeError("Нельзя складывать товары разных классов")
         return self.__price * self.quantity + other.price * other.quantity
+
+
+class Smartphone(Product):
+    """Класс для смартфонов, наследник Product."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: str,
+        model: str,
+        memory: int,
+        color: str,
+    ) -> None:
+        """Инициализирует объект смартфона."""
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Класс для травы газонной, наследник Product."""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ) -> None:
+        """Инициализирует объект травы газонной."""
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color

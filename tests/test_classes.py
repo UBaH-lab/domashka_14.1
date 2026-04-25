@@ -1,6 +1,6 @@
 import pytest
 from src.category import Category
-from src.product import Product
+from src.product import Product, Smartphone, LawnGrass
 
 
 def setup_function() -> None:
@@ -89,6 +89,198 @@ def test_product_add_same_products() -> None:
     assert result == 30000.0
 
 
+# ========== Тесты Smartphone ==========
+
+
+def test_smartphone_init() -> None:
+    """Проверяет инициализацию смартфона."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=5,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+    assert smartphone.name == "iPhone 15"
+    assert smartphone.description == "Флагман Apple"
+    assert smartphone.price == 100000
+    assert smartphone.quantity == 5
+    assert smartphone.efficiency == "A17 Pro"
+    assert smartphone.model == "iPhone 15 Pro Max"
+    assert smartphone.memory == 256
+    assert smartphone.color == "Титановый"
+
+
+def test_smartphone_str() -> None:
+    """Проверяет строковое представление смартфона."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=5,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+    assert str(smartphone) == "iPhone 15, 100000 руб. Остаток: 5 шт."
+
+
+def test_smartphone_add() -> None:
+    """Проверяет сложение смартфонов."""
+    phone1 = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=2,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+    phone2 = Smartphone(
+        name="Samsung S24",
+        description="Флагман Samsung",
+        price=80000,
+        quantity=3,
+        efficiency="Snapdragon 8",
+        model="Galaxy S24 Ultra",
+        memory=512,
+        color="Черный",
+    )
+    result = phone1 + phone2
+    assert result == 440000.0
+
+
+# ========== Тесты LawnGrass ==========
+
+
+def test_lawn_grass_init() -> None:
+    """Проверяет инициализацию травы газонной."""
+    grass = LawnGrass(
+        name="Газонная трава",
+        description="Для дачи",
+        price=500,
+        quantity=100,
+        country="Россия",
+        germination_period="2 недели",
+        color="Зеленый",
+    )
+    assert grass.name == "Газонная трава"
+    assert grass.description == "Для дачи"
+    assert grass.price == 500
+    assert grass.quantity == 100
+    assert grass.country == "Россия"
+    assert grass.germination_period == "2 недели"
+    assert grass.color == "Зеленый"
+
+
+def test_lawn_grass_str() -> None:
+    """Проверяет строковое представление травы газонной."""
+    grass = LawnGrass(
+        name="Газонная трава",
+        description="Для дачи",
+        price=500,
+        quantity=100,
+        country="Россия",
+        germination_period="2 недели",
+        color="Зеленый",
+    )
+    assert str(grass) == "Газонная трава, 500 руб. Остаток: 100 шт."
+
+
+def test_lawn_grass_add() -> None:
+    """Проверяет сложение травы газонной."""
+    grass1 = LawnGrass(
+        name="Газонная трава",
+        description="Для дачи",
+        price=500,
+        quantity=10,
+        country="Россия",
+        germination_period="2 недели",
+        color="Зеленый",
+    )
+    grass2 = LawnGrass(
+        name="Спортивная трава",
+        description="Для стадиона",
+        price=800,
+        quantity=5,
+        country="Германия",
+        germination_period="3 недели",
+        color="Темно-зеленый",
+    )
+    result = grass1 + grass2
+    assert result == 9000.0
+
+
+# ========== Тесты ограничения сложения ==========
+
+
+def test_add_smartphone_and_product() -> None:
+    """Проверяет ошибку при сложении смартфона и обычного продукта."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=2,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+    product = Product("Телефон", "Обычный телефон", 10000, 5)
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов"):
+        _ = smartphone + product
+
+
+def test_add_smartphone_and_lawn_grass() -> None:
+    """Проверяет ошибку при сложении смартфона и травы газонной."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=2,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+    grass = LawnGrass(
+        name="Газонная трава",
+        description="Для дачи",
+        price=500,
+        quantity=10,
+        country="Россия",
+        germination_period="2 недели",
+        color="Зеленый",
+    )
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов"):
+        _ = smartphone + grass
+
+
+def test_add_product_and_smartphone() -> None:
+    """Проверяет ошибку при сложении обычного продукта и смартфона."""
+    product = Product("Телефон", "Обычный телефон", 10000, 5)
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=2,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+
+    with pytest.raises(TypeError, match="Нельзя складывать товары разных классов"):
+        _ = product + smartphone
+
+
 # ========== Тесты Category ==========
 
 
@@ -109,6 +301,55 @@ def test_category_add_product() -> None:
     product2 = Product("Планшет", "iPad", 80000, 5)
     category.add_product(product2)
     assert Category.product_count == 2
+
+
+def test_category_add_smartphone() -> None:
+    """Проверяет добавление смартфона в категорию."""
+    smartphone = Smartphone(
+        name="iPhone 15",
+        description="Флагман Apple",
+        price=100000,
+        quantity=5,
+        efficiency="A17 Pro",
+        model="iPhone 15 Pro Max",
+        memory=256,
+        color="Титановый",
+    )
+    category = Category("Смартфоны", "Мобильные устройства", [])
+    category.add_product(smartphone)
+    assert Category.product_count == 1
+
+
+def test_category_add_lawn_grass() -> None:
+    """Проверяет добавление травы газонной в категорию."""
+    grass = LawnGrass(
+        name="Газонная трава",
+        description="Для дачи",
+        price=500,
+        quantity=100,
+        country="Россия",
+        germination_period="2 недели",
+        color="Зеленый",
+    )
+    category = Category("Сад", "Товары для сада", [])
+    category.add_product(grass)
+    assert Category.product_count == 1
+
+
+def test_category_add_non_product() -> None:
+    """Проверяет ошибку при добавлении не продукта в категорию."""
+    category = Category("Гаджеты", "Электроника", [])
+
+    with pytest.raises(TypeError, match="Можно добавлять только объекты Product или его наследников"):
+        category.add_product("не продукт")
+
+
+def test_category_add_non_product_number() -> None:
+    """Проверяет ошибку при добавлении числа в категорию."""
+    category = Category("Гаджеты", "Электроника", [])
+
+    with pytest.raises(TypeError, match="Можно добавлять только объекты Product или его наследников"):
+        category.add_product(123)
 
 
 def test_category_products_getter() -> None:
@@ -135,7 +376,7 @@ def test_category_str_empty() -> None:
     assert str(category) == "Пустая, количество продуктов: 0 шт."
 
 
-# ========== Тесты CategoryIterator (дополнительное задание) ==========
+# ========== Тесты CategoryIterator ==========
 
 
 def test_category_iterator() -> None:
@@ -161,8 +402,7 @@ def test_category_iterator_stop_iteration() -> None:
     category = Category("Гаджеты", "Электроника", [product])
 
     iterator = iter(category)
-    next(iterator)  # получаем первый продукт
+    next(iterator)
 
-    # Больше продуктов нет — должно вызвать StopIteration
     with pytest.raises(StopIteration):
         next(iterator)
