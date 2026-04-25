@@ -1,13 +1,12 @@
 class Product:
     """Класс для представления продукта."""
 
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        price: float,
-        quantity: int,
-    ) -> None:
+    name: str
+    description: str
+    __price: float
+    quantity: int
+
+    def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
         """Инициализирует объект продукта."""
         self.name = name
         self.description = description
@@ -15,41 +14,41 @@ class Product:
         self.quantity = quantity
 
     @classmethod
-    def new_product(cls, product_data: dict):
-        """Создает экземпляр класса Product из словаря."""
+    def new_product(cls, data: dict) -> "Product":
+        """Создаёт продукт из словаря."""
         return cls(
-            product_data["name"],
-            product_data["description"],
-            product_data["price"],
-            product_data["quantity"],
+            name=data["name"],
+            description=data["description"],
+            price=data["price"],
+            quantity=data["quantity"],
         )
 
     @property
     def price(self) -> float:
-        """Геттер для приватного атрибута цены."""
+        """Геттер для цены."""
         return self.__price
 
     @price.setter
-    def price(self, new_price: float) -> None:
-        """Сеттер для приватного атрибута цены с проверкой."""
-        if new_price <= 0:
+    def price(self, value: float) -> None:
+        """Сеттер для цены с валидацией."""
+        if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
         else:
-            self.__price = new_price
+            self.__price = value
 
     def __str__(self) -> str:
         """Возвращает строковое представление продукта."""
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other: "Product") -> float:
-        """Возвращает сумму произведений цены на количество двух продуктов."""
-        if type(self) is not type(other):
+        """Складывает стоимость продуктов."""
+        if type(self) != type(other):
             raise TypeError("Нельзя складывать товары разных классов")
-        return self.__price * self.quantity + other.price * other.quantity
+        return self.__price * self.quantity + other.__price * other.quantity
 
 
 class Smartphone(Product):
-    """Класс для смартфонов, наследник Product."""
+    """Класс для представления смартфона."""
 
     def __init__(
         self,
@@ -71,7 +70,7 @@ class Smartphone(Product):
 
 
 class LawnGrass(Product):
-    """Класс для травы газонной, наследник Product."""
+    """Класс для представления травы газонной."""
 
     def __init__(
         self,
