@@ -1,3 +1,6 @@
+from typing import Any
+
+
 class Product:
     """Класс для представления продукта."""
 
@@ -14,13 +17,13 @@ class Product:
         self.quantity = quantity
 
     @classmethod
-    def new_product(cls, data: dict) -> "Product":
+    def new_product(cls, data: dict[str, Any]) -> "Product":
         """Создаёт продукт из словаря."""
         return cls(
-            name=data["name"],
-            description=data["description"],
-            price=data["price"],
-            quantity=data["quantity"],
+            name=str(data["name"]),
+            description=str(data["description"]),
+            price=float(data["price"]),
+            quantity=int(data["quantity"]),
         )
 
     @property
@@ -42,7 +45,7 @@ class Product:
 
     def __add__(self, other: "Product") -> float:
         """Складывает стоимость продуктов."""
-        if type(self) != type(other):
+        if type(self) is not type(other):
             raise TypeError("Нельзя складывать товары разных классов")
         return self.__price * self.quantity + other.__price * other.quantity
 

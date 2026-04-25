@@ -1,6 +1,7 @@
 import pytest
+
 from src.category import Category
-from src.product import Product, Smartphone, LawnGrass
+from src.product import LawnGrass, Product, Smartphone
 
 
 def setup_function() -> None:
@@ -49,7 +50,7 @@ def test_product_price_setter_positive() -> None:
     assert product.price == 60000
 
 
-def test_product_price_setter_negative(capsys) -> None:
+def test_product_price_setter_negative(capsys: pytest.CaptureFixture[str]) -> None:
     """Проверяет сеттер цены с отрицательным значением."""
     product = Product("Телефон", "Смартфон", 50000, 10)
     product.price = -100
@@ -58,7 +59,7 @@ def test_product_price_setter_negative(capsys) -> None:
     assert "Цена не должна быть нулевая или отрицательная" in captured.out
 
 
-def test_product_price_setter_zero(capsys) -> None:
+def test_product_price_setter_zero(capsys: pytest.CaptureFixture[str]) -> None:
     """Проверяет сеттер цены с нулевым значением."""
     product = Product("Телефон", "Смартфон", 50000, 10)
     product.price = 0

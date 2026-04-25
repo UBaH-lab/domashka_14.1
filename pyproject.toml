@@ -18,6 +18,16 @@ exclude = [
     ".git",
 ]
 
+[tool.mypy]
+python_version = 3.13
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = "tests.test_classes"
+disable_error_code = ["arg-type", "no-untyped-def"]
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"

@@ -1,5 +1,5 @@
-from src.product import Product
 from src.category_iterator import CategoryIterator
+from src.product import Product
 
 
 class Category:
