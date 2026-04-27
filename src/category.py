@@ -1,8 +1,9 @@
+from src.base_unit import BaseUnit
 from src.category_iterator import CategoryIterator
 from src.product import Product
 
 
-class Category:
+class Category(BaseUnit):
     """Класс для представления категории товаров."""
 
     category_count = 0
@@ -15,8 +16,7 @@ class Category:
         products: list[Product],
     ) -> None:
         """Инициализирует объект категории."""
-        self.name = name
-        self.description = description
+        super().__init__(name, description)
         self.__products = products
 
         Category.category_count += 1

@@ -1,7 +1,10 @@
 from typing import Any
 
+from src.base_product import BaseProduct
+from src.mixins import LogMixin
 
-class Product:
+
+class Product(LogMixin, BaseProduct):
     """Класс для представления продукта."""
 
     name: str
@@ -15,6 +18,7 @@ class Product:
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__(name, description, price, quantity)
 
     @classmethod
     def new_product(cls, data: dict[str, Any]) -> "Product":

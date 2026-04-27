@@ -407,3 +407,171 @@ def test_category_iterator_stop_iteration() -> None:
 
     with pytest.raises(StopIteration):
         next(iterator)
+
+
+# ========== Тесты для абстрактного класса BaseProduct ==========
+
+def test_product_is_subclass_of_base_product():
+    """Проверяет, что Product наследуется от BaseProduct."""
+    from src.base_product import BaseProduct
+    from src.product import Product
+
+    assert issubclass(Product, BaseProduct)
+
+
+def test_smartphone_is_subclass_of_product():
+    """Проверяет, что Smartphone наследуется от Product."""
+    from src.product import Product, Smartphone
+
+    assert issubclass(Smartphone, Product)
+
+
+def test_lawn_grass_is_subclass_of_product():
+    """Проверяет, что LawnGrass наследуется от Product."""
+    from src.product import LawnGrass, Product
+
+    assert issubclass(LawnGrass, Product)
+
+
+def test_base_product_is_abstract():
+    """Проверяет, что BaseProduct - абстрактный класс."""
+    from abc import ABC
+    from src.base_product import BaseProduct
+
+    assert issubclass(BaseProduct, ABC)
+
+
+def test_cannot_instantiate_base_product():
+    """Проверяет, что нельзя создать экземпляр абстрактного класса."""
+    from src.base_product import BaseProduct
+
+    with pytest.raises(TypeError):
+        BaseProduct("Товар", "Описание", 1000.0, 10)
+
+
+# ========== Тесты для миксина LogMixin ==========
+
+def test_mixin_prints_on_creation(capsys):
+    """Проверяет, что миксин печатает информацию при создании."""
+    from src.product import Product
+
+    Product("Товар", "Описание", 1000.0, 5)
+
+    captured = capsys.readouterr()
+    assert "Создан объект класса Product" in captured.out
+    assert "Товар" in captured.out
+
+
+def test_mixin_prints_smartphone_creation(capsys):
+    """Проверяет, что миксин печатает информацию при создании смартфона."""
+    from src.product import Smartphone
+
+    Smartphone(
+        "iPhone", "Описание", 100000.0, 3,
+        "A15", "15 Pro", 256, "Black"
+    )
+
+    captured = capsys.readouterr()
+    assert "Создан объект класса Smartphone" in captured.out
+
+
+def test_mixin_repr():
+    """Проверяет, что миксин добавляет метод __repr__."""
+    from src.product import Product
+
+    product = Product("Товар", "Описание", 1000.0, 5)
+    repr_str = repr(product)
+
+    assert "Product" in repr_str
+
+
+# ========== Тесты для абстрактного класса BaseUnit ==========
+
+def test_base_unit_is_abstract():
+    """Проверяет, что BaseUnit - абстрактный класс."""
+    from abc import ABC
+    from src.base_unit import BaseUnit
+
+    assert issubclass(BaseUnit, ABC)
+
+
+def test_cannot_instantiate_base_unit():
+    """Проверяет, что нельзя создать экземпляр абстрактного класса."""
+    from src.base_unit import BaseUnit
+
+    with pytest.raises(TypeError):
+        BaseUnit("Название", "Описание")
+
+
+def test_category_is_subclass_of_base_unit():
+    """Проверяет, что Category наследуется от BaseUnit."""
+    from src.base_unit import BaseUnit
+    from src.category import Category
+
+    assert issubclass(Category, BaseUnit)
+
+
+def test_order_is_subclass_of_base_unit():
+    """Проверяет, что Order наследуется от BaseUnit."""
+    from src.base_unit import BaseUnit
+    from src.order import Order
+
+    assert issubclass(Order, BaseUnit)
+
+
+# ========== Тесты для класса Order ==========
+
+def test_order_init():
+    """Проверяет создание заказа."""
+    from src.order import Order
+    from src.product import Product
+
+    product = Product("Телефон", "Смартфон", 50000.0, 10)
+    order = Order("Заказ #1", "Тестовый заказ", product, 3)
+
+    assert order.name == "Заказ #1"
+    assert order.description == "Тестовый заказ"
+    assert order.product == product
+    assert order.quantity == 3
+
+
+def test_order_total_price():
+    """Проверяет вычисление итоговой стоимости."""
+    from src.order import Order
+    from src.product import Product
+
+    product = Product("Телефон", "Смартфон", 50000.0, 10)
+    order = Order("Заказ #1", "Тестовый заказ", product, 3)
+
+    assert order.total_price == 150000.0
+
+
+def test_order_str():
+    """Проверяет строковое представление заказа."""
+    from src.order import Order
+    from src.product import Product
+
+    product = Product("Телефон", "Смартфон", 50000.0, 10)
+    order = Order("Заказ #1", "Тестовый заказ", product, 2)
+
+    result = str(order)
+
+    assert "Заказ #1" in result
+    assert "Телефон" in result
+    assert "2 шт." in result
+    assert "100000" in result
+
+
+def test_order_with_smartphone():
+    """Проверяет заказ со смартфоном."""
+    from src.order import Order
+    from src.product import Smartphone
+
+    smartphone = Smartphone(
+        "iPhone 15", "512GB, Gray", 150000.0, 5,
+        "A17", "15 Pro Max", 512, "Gray"
+    )
+    order = Order("Заказ #2", "Заказ смартфона", smartphone, 1)
+
+    assert order.product.name == "iPhone 15"
+    assert order.total_price == 150000.0

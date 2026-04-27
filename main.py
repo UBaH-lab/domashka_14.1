@@ -1,5 +1,7 @@
 from src.category import Category
-from src.product import Product
+from src.product import Product, Smartphone, LawnGrass
+from src.order import Order
+
 
 if __name__ == "__main__":
     product1 = Product(
@@ -95,3 +97,28 @@ if __name__ == "__main__":
     print("\nПопытка установить отрицательную цену:")
     product1.price = -5000
     print(f"Цена осталась прежней: {product1.price} руб.")
+
+print("\n--- Работа с заказами ---\n")
+
+# Создаём продукт для заказа
+print("Создаём продукт для заказа:")
+order_product = Product(
+    "Samsung Galaxy S24 Ultra",
+    "512GB, Титан, 200MP камера",
+    200000.0,
+    15
+)
+
+# Создаём заказ
+print("\nСоздаём заказ:")
+order = Order(
+    "Заказ #12345",
+    "Доставка до двери",
+    order_product,
+    2
+)
+
+print(order)
+
+# Проверяем итоговую стоимость
+print(f"\nПроверка: 200000 * 2 = {order.total_price} руб.")
