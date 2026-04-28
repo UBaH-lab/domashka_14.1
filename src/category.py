@@ -1,5 +1,6 @@
 from src.base_unit import BaseUnit
 from src.category_iterator import CategoryIterator
+from src.exceptions import AddProductError
 from src.product import Product
 
 
@@ -10,10 +11,10 @@ class Category(BaseUnit):
     product_count = 0
 
     def __init__(
-        self,
-        name: str,
-        description: str,
-        products: list[Product],
+            self,
+            name: str,
+            description: str,
+            products: list[Product],
     ) -> None:
         """Инициализирует объект категории."""
         super().__init__(name, description)
@@ -26,8 +27,18 @@ class Category(BaseUnit):
         """Добавляет продукт в категорию."""
         if not isinstance(product, Product):
             raise TypeError("Можно добавлять только объекты Product или его наследников")
-        self.__products.append(product)
-        Category.product_count += 1
+
+        try:
+            if product.quantity == 0:
+                raise AddProductError("Попытка добавить товар с нулевым количеством")
+            self.__products.append(product)
+            Category.product_count += 1
+        except AddProductError as e:
+            print(f"Ошибка: {e}")
+        else:
+            print("Товар успешно добавлен")
+        finally:
+            print("Обработка добавления товара завершена")
 
     @property
     def products(self) -> str:
@@ -57,3 +68,4 @@ class Category(BaseUnit):
             return total / len(self.__products)
         except ZeroDivisionError:
             return 0.0
+
