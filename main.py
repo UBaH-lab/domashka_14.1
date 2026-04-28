@@ -1,5 +1,5 @@
 from src.category import Category
-from src.product import Product, Smartphone, LawnGrass
+from src.product import Product
 from src.order import Order
 
 

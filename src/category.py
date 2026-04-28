@@ -68,4 +68,3 @@ class Category(BaseUnit):
             return total / len(self.__products)
         except ZeroDivisionError:
             return 0.0
-

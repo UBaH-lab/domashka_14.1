@@ -1,22 +1,21 @@
 import pytest
 from src.product import Product
 from src.category import Category
-from src.exceptions import AddProductError
 
 
-def test_product_zero_quantity():
+def test_product_zero_quantity() -> None:
     """Тест создания продукта с нулевым количеством."""
     with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
         Product("Товар", "Описание", 100.0, 0)
 
 
-def test_product_positive_quantity():
+def test_product_positive_quantity() -> None:
     """Тест создания продукта с положительным количеством."""
     product = Product("Товар", "Описание", 100.0, 10)
     assert product.quantity == 10
 
 
-def test_get_average_price():
+def test_get_average_price() -> None:
     """Тест подсчёта среднего ценника."""
     product1 = Product("Товар1", "Описание", 100.0, 5)
     product2 = Product("Товар2", "Описание", 200.0, 10)
@@ -25,8 +24,8 @@ def test_get_average_price():
     assert category.get_average_price() == 150.0
 
 
-def test_get_average_price_empty_category():
-    """Тест среднего ценника пустой категории."""
+def test_get_average_price_empty_category() -> None:
+    """Тест среднего ценник пустой категории."""
     category = Category("Пустая категория", "Описание", [])
 
     assert category.get_average_price() == 0.0
@@ -35,7 +34,7 @@ def test_get_average_price_empty_category():
 # ========== Дополнительные тесты для try/except/else/finally ==========
 
 
-def test_add_product_zero_quantity_prints_error(capsys):
+def test_add_product_zero_quantity_prints_error(capsys: pytest.CaptureFixture[str]) -> None:
     """Тест добавления товара с нулевым количеством в категорию."""
     product = Product("Товар", "Описание", 100.0, 1)
     category = Category("Категория", "Описание", [])
@@ -50,7 +49,7 @@ def test_add_product_zero_quantity_prints_error(capsys):
     assert "Обработка добавления товара завершена" in captured.out
 
 
-def test_add_product_success_prints_message(capsys):
+def test_add_product_success_prints_message(capsys: pytest.CaptureFixture[str]) -> None:
     """Тест успешного добавления товара."""
     product = Product("Товар", "Описание", 100.0, 5)
     category = Category("Категория", "Описание", [])
@@ -62,7 +61,7 @@ def test_add_product_success_prints_message(capsys):
     assert "Обработка добавления товара завершена" in captured.out
 
 
-def test_add_product_error_increments_product_count():
+def test_add_product_error_increments_product_count() -> None:
     """Тест, что при ошибке количество продуктов не увеличивается."""
     product = Product("Товар", "Описание", 100.0, 1)
     category = Category("Категория", "Описание", [])
@@ -75,7 +74,7 @@ def test_add_product_error_increments_product_count():
     assert Category.product_count == initial_count
 
 
-def test_add_product_success_increments_product_count():
+def test_add_product_success_increments_product_count() -> None:
     """Тест, что при успехе количество продуктов увеличивается."""
     product = Product("Товар", "Описание", 100.0, 5)
     category = Category("Категория", "Описание", [])

@@ -441,12 +441,12 @@ def test_base_product_is_abstract():
     assert issubclass(BaseProduct, ABC)
 
 
-def test_cannot_instantiate_base_product():
+def test_cannot_instantiate_base_product() -> None:
     """Проверяет, что нельзя создать экземпляр абстрактного класса."""
     from src.base_product import BaseProduct
 
     with pytest.raises(TypeError):
-        BaseProduct("Товар", "Описание", 1000.0, 10)
+        BaseProduct("Товар", "Описание", 1000.0, 10)  # type: ignore
 
 
 # ========== Тесты для миксина LogMixin ==========
@@ -495,12 +495,12 @@ def test_base_unit_is_abstract():
     assert issubclass(BaseUnit, ABC)
 
 
-def test_cannot_instantiate_base_unit():
+def test_cannot_instantiate_base_unit() -> None:
     """Проверяет, что нельзя создать экземпляр абстрактного класса."""
     from src.base_unit import BaseUnit
 
     with pytest.raises(TypeError):
-        BaseUnit("Название", "Описание")
+        BaseUnit("Название", "Описание")  # type: ignore
 
 
 def test_category_is_subclass_of_base_unit():
